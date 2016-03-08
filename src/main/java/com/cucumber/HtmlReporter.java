@@ -1,33 +1,31 @@
 package com.cucumber;
 
+import net.masterthought.cucumber.ReportBuilder;
+import org.apache.velocity.exception.VelocityException;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.velocity.exception.VelocityException;
-
-import com.appium.manager.AppiumParallelTest;
-
-import net.masterthought.cucumber.ReportBuilder;
-
 public class HtmlReporter {
-	static File reportOutputDirectory = new File(System.getProperty("user.dir") + "/build/"+AppiumParallelTest.prop.getProperty("jsonreport"));
+	static File reportOutputDirectory = new File(System.getProperty("user.dir")+"/target"+"/");
+
 	static List<String> list = new ArrayList<String>();
 
-	public static void listFilesForFolder(final File folder) {
+	public  void listFilesForFolder(final File folder) {
 		for (final File fileEntry : folder.listFiles()) {
 			if (fileEntry.isDirectory()) {
 				listFilesForFolder(fileEntry);
 			} else if (fileEntry.getName().endsWith(".json")) {
 				System.out.println("*******" + fileEntry.getName());
-				list.add(reportOutputDirectory + fileEntry.getName());
+				list.add(reportOutputDirectory +"/"+fileEntry.getName());
                 
 			}
 		}
 	}
 
-	public static void generateReports() throws VelocityException, IOException {
+	public void generateReports() throws VelocityException, IOException {
 		listFilesForFolder(reportOutputDirectory);
 		String pluginUrlPath = "";
 		String buildNumber = "1";
